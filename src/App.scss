@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i");
+.App {
+  width: 100%;
+}
+
+
+
+.card-image {
+  max-height: 220px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.card-desc {
+  padding: 5px;
+}
+
+img {
+  width: 100%;
+}
+
+body {
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  font-family: "Noto Sans", sans-serif;
+}

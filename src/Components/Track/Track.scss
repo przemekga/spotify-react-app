@@ -1,0 +1,23 @@
+.Track {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(207, 207, 207);
+}
+
+.Track .tmb {
+  width: 50px;
+}
+
+.Track img {
+  width: 100%;
+  display: block;
+}
+
+.Track .desc {
+  display: flex;
+  padding: 0 10px;
+  flex: 1;
+  .lgt {
+    margin-left: auto;
+  }
+}
