@@ -10,10 +10,8 @@ const TopTracks = () => {
     spotifyApi
       .getMyTopTracks()
       .then(res => {
-        console.log(res);
         setTracks(res.items);
       })
-      .then(res => console.log(tracks));
   }, []);
 
   return (

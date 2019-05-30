@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import NowPlaying from '../NowPlaying/NowPlaying'
 import "./Header.scss";
 
 const Header = () => {
@@ -19,6 +20,7 @@ const Header = () => {
           <NavLink to="/followed-artists">Followed Artists</NavLink>
         </li>
       </ul>
+      <NowPlaying />
     </nav>
   );
 };
