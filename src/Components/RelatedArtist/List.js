@@ -8,7 +8,6 @@ const List = ({ id }) => {
   const [relatedArtists, setRelatedArtists] = useState([]);
 
   useEffect(() => {
-    console.log(relatedArtists)
     if (!relatedArtists.length) {
       spotifyApi.getArtistRelatedArtists(id).then(res => {
         setRelatedArtists(res.artists);

@@ -8,6 +8,8 @@ const Line = ({ name, image, genre, id }) => {
     artists.push(id);
     spotifyApi.followArtists(artists).then(res => {
       console.log(res)
+    }).catch(err => {
+      console.log('err:', err)
     })
   };
 

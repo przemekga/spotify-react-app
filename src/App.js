@@ -4,6 +4,7 @@ import Summary from "./Components/Summary/Summary";
 import TopArtists from "./Components/TopArtists/TopArtists";
 import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
+import FollowedArtists from './Components/FollowedArtists/FollowedArtists'
 
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
@@ -20,7 +21,9 @@ const scopes = [
   "user-read-playback-state",
   "user-read-private",
   "user-read-email",
-  "user-top-read"
+  "user-top-read",
+  "user-follow-modify",
+  "user-follow-read"
 ];
 
 const hash = window.location.hash
@@ -52,8 +55,6 @@ const App = () => {
     if (timestamp >= expiresIn) {
       setToken('');
     }
-
-    console.log(_token)
   }, []);
 
   return (
@@ -82,6 +83,7 @@ const App = () => {
                 <Route exact path="/" component={Summary} />
                 <Route path="/top-tracks" component={TopTracks} />
                 <Route path="/top-artists" component={TopArtists} />
+                <Route path="/followed-artists" component={FollowedArtists} />
               </Switch>
             </div>
           </Fragment>

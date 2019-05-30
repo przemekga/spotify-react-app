@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import Tag from "../Tag/Tag";
 import RelatedArtists from "../RelatedArtist/List";
 
-import { spotifyApi } from "../../utils";
-
 import "./Artist.scss";
 
 const Artist = ({ image, name, col, tags, followers, id }) => {
   const [relatedArtistShown, setRelatedArtistShown] = useState(false);
 
   if (tags.length > 5) {
-    tags.length = 5;
+    tags.length = 4;
   }
 
   tags = tags.map((item, index) => <Tag name={item} key={index} />);
@@ -35,7 +33,7 @@ const Artist = ({ image, name, col, tags, followers, id }) => {
                 className="btn-small"
                 onClick={() => setRelatedArtistShown(!relatedArtistShown)}
               >
-                Load related
+                {relatedArtistShown ? `Hide related` : `Show related`}
               </div>
             </div>
           </div>

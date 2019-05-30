@@ -14,7 +14,6 @@ const TopTracks = () => {
         setTracks(res.items);
       })
       .then(res => console.log(tracks));
-    console.log(tracks);
   }, []);
 
   return (

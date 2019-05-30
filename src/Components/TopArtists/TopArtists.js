@@ -9,7 +9,6 @@ const TopArtist = () => {
     spotifyApi
       .getMyTopArtists()
       .then(data => {
-        console.log(data);
         setAlbums(data.items);
       })
       .catch(err => console.log(err));

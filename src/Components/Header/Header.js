@@ -15,6 +15,9 @@ const Header = () => {
         <li>
           <NavLink to="/top-artists">Top Artists</NavLink>
         </li>
+        <li>
+          <NavLink to="/followed-artists">Followed Artists</NavLink>
+        </li>
       </ul>
     </nav>
   );
