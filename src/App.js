@@ -41,14 +41,18 @@ const App = () => {
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
-    if (_token) {
-      setToken(_token);
-      window.localStorage.setItem("token", _token);
-      spotifyApi.setAccessToken(_token);
-    } else {
-      setToken(_token);
-      spotifyApi.setAccessToken(window.localStorage.token);
+    let timestamp = window.localStorage.tokenTimestamp || Date.now();
+    const expiresIn = timestamp + 36000000;
+
+    setToken(_token);
+    spotifyApi.setAccessToken(_token);
+    window.localStorage.setItem("token", _token);
+    window.localStorage.setItem("tokenTimestamp", Date.now());
+
+    if (timestamp >= expiresIn) {
+      setToken('');
     }
+
     console.log(_token)
   }, []);
 
