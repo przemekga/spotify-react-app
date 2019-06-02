@@ -6,16 +6,22 @@ import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
 import FollowedArtists from './Components/FollowedArtists/FollowedArtists'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
 
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
 
+
+library.add(faPlay, faPause);
+
 export const authEndpoint = "https://accounts.spotify.com/authorize?";
 
 const clientId = "10fa5b3ca0fe4299923fecd6424038df";
-const redirectUri = "http://localhost:3000/";
+const redirectUri = process.env.REACT_APP_URL;
 const scopes = [
   "user-read-currently-playing",
   "user-read-playback-state",
@@ -23,7 +29,9 @@ const scopes = [
   "user-read-email",
   "user-top-read",
   "user-follow-modify",
-  "user-follow-read"
+  "user-follow-read",
+  "app-remote-control",
+  "user-modify-playback-state"
 ];
 
 const hash = window.location.hash
