@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AudioIcon from "../AudioIcon/AudioIcon";
 
 import { spotifyApi, transformUnix } from "../../utils";
-import './NowPlaying.scss'
+import "./NowPlaying.scss";
 
 const NowPlaying = () => {
   const [currentTrack, setCurrentTrack] = useState({});
@@ -28,7 +28,9 @@ const NowPlaying = () => {
     <div className="NowPlaying">
       {isPlaying ? (
         <>
-          <div>{artist} - {track}</div> 
+          <div>
+            {artist} - {track}
+          </div>
           <AudioIcon />
         </>
       ) : (
