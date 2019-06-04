@@ -39,6 +39,23 @@ const NowPlaying = memo(({ history }) => {
       });
   };
 
+  const playNext = () => {
+    spotifyApi.skipToNext({}).then(() => {
+      setTimeout(function() {
+        // bez timeouta fetchCurrentTrack dostaje nieaktualne info o obecnie granym kawałku
+        fetchCurrentTrack();
+      }, 200);
+    });
+  };
+
+  const playPrev = () => {
+    spotifyApi.skipToPrevious({}).then(() => {
+      setTimeout(function() {
+        fetchCurrentTrack();
+      }, 200);
+    });
+  };
+
   const fetchCurrentTrack = () => {
     spotifyApi.getMyCurrentPlaybackState().then(res => {
       if (res !== "") {
@@ -47,7 +64,7 @@ const NowPlaying = memo(({ history }) => {
           track: res.item.name || "",
           deviceId: res.device.id
         });
-        setIsPlaying(true);
+        setIsPlaying(res.is_playing);
       } else {
         setIsPlaying(false);
       }
@@ -60,11 +77,29 @@ const NowPlaying = memo(({ history }) => {
     <div className="NowPlaying">
       <>
         <div className="controls">
+          <FontAwesomeIcon
+            className="controls-icon"
+            icon="step-backward"
+            onClick={playPrev}
+          />
           {isPlaying ? (
-            <FontAwesomeIcon icon="pause" onClick={() => pause()} />
+            <FontAwesomeIcon
+              className="controls-icon"
+              icon="pause"
+              onClick={pause}
+            />
           ) : (
-            <FontAwesomeIcon icon="play" onClick={() => play()} />
+            <FontAwesomeIcon
+              className="controls-icon"
+              icon="play"
+              onClick={play}
+            />
           )}
+          <FontAwesomeIcon
+            className="controls-icon"
+            icon="step-forward"
+            onClick={playNext}
+          />
         </div>
         <div>
           {artist} - {track}
