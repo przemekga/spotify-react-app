@@ -5,6 +5,7 @@ import TopArtists from "./Components/TopArtists/TopArtists";
 import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
 import FollowedArtists from "./Components/FollowedArtists/FollowedArtists";
+import Playlists from "./Components/Playlists/Playlists";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -35,7 +36,11 @@ const scopes = [
   "user-follow-modify",
   "user-follow-read",
   "app-remote-control",
-  "user-modify-playback-state"
+  "user-modify-playback-state",
+  "playlist-read-private",
+  "playlist-modify-public",
+  "playlist-modify-private",
+  "playlist-read-collaborative"
 ];
 
 const hash = window.location.hash
@@ -53,6 +58,7 @@ window.location.hash = "";
 
 const App = () => {
   const [token, setToken] = useState("");
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
@@ -66,6 +72,10 @@ const App = () => {
 
     if (timestamp >= expiresIn) {
       setToken("");
+    }
+
+    if (token) {
+      spotifyApi.getMe().then(res => setUserData(res));
     }
   }, []);
 
@@ -96,6 +106,10 @@ const App = () => {
               <Route path="/top-tracks" component={TopTracks} />
               <Route path="/top-artists" component={TopArtists} />
               <Route path="/followed-artists" component={FollowedArtists} />
+              <Route
+                path="/playlists"
+                render={() => <Playlists userId={userData.id} />}
+              />
             </Switch>
           </div>
         </Fragment>
