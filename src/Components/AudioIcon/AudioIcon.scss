@@ -4,6 +4,12 @@
   width: 40px;
   position: relative;
   margin: 0 15px 15px;
+  &.noAnim {
+    .bar {
+      -webkit-animation: none;
+      -webkit-animation-name: none;
+    }
+  }
   .bar {
     height: 1px;
     width: 3px;
@@ -12,10 +18,6 @@
     bottom: 0;
     position: absolute;
 
-    &.noAnim {
-      -webkit-animation: none;
-      -webkit-animation-name: none;
-    }
 
     &#bar-1 {
       left: 0;

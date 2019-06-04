@@ -4,7 +4,15 @@ import Summary from "./Components/Summary/Summary";
 import TopArtists from "./Components/TopArtists/TopArtists";
 import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
-import FollowedArtists from './Components/FollowedArtists/FollowedArtists'
+import FollowedArtists from "./Components/FollowedArtists/FollowedArtists";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlay,
+  faPause,
+  faStepForward,
+  faStepBackward
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
@@ -12,10 +20,12 @@ import { spotifyApi } from "./utils";
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
 
+library.add(faPlay, faPause, faStepForward, faStepBackward);
+
 export const authEndpoint = "https://accounts.spotify.com/authorize?";
 
 const clientId = "10fa5b3ca0fe4299923fecd6424038df";
-const redirectUri = "http://localhost:3000/";
+const redirectUri = process.env.REACT_APP_URL;
 const scopes = [
   "user-read-currently-playing",
   "user-read-playback-state",
@@ -23,7 +33,9 @@ const scopes = [
   "user-read-email",
   "user-top-read",
   "user-follow-modify",
-  "user-follow-read"
+  "user-follow-read",
+  "app-remote-control",
+  "user-modify-playback-state"
 ];
 
 const hash = window.location.hash
@@ -53,7 +65,7 @@ const App = () => {
     window.localStorage.setItem("tokenTimestamp", Date.now());
 
     if (timestamp >= expiresIn) {
-      setToken('');
+      setToken("");
     }
   }, []);
 
@@ -76,18 +88,18 @@ const App = () => {
         </a>
       )}
       {token && (
-          <Fragment>
-            <Header />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={Summary} />
-                <Route path="/top-tracks" component={TopTracks} />
-                <Route path="/top-artists" component={TopArtists} />
-                <Route path="/followed-artists" component={FollowedArtists} />
-              </Switch>
-            </div>
-          </Fragment>
-        )}
+        <Fragment>
+          <Header />
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Summary} />
+              <Route path="/top-tracks" component={TopTracks} />
+              <Route path="/top-artists" component={TopArtists} />
+              <Route path="/followed-artists" component={FollowedArtists} />
+            </Switch>
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 };
