@@ -12,7 +12,8 @@ import {
   faPlay,
   faPause,
   faStepForward,
-  faStepBackward
+  faStepBackward,
+  faPlayCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Switch, Route } from "react-router-dom";
@@ -21,7 +22,7 @@ import { spotifyApi } from "./utils";
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
 
-library.add(faPlay, faPause, faStepForward, faStepBackward);
+library.add(faPlay, faPause, faStepForward, faStepBackward, faPlayCircle);
 
 export const authEndpoint = "https://accounts.spotify.com/authorize?";
 
@@ -59,6 +60,7 @@ window.location.hash = "";
 const App = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
+  const [songChanged, setSongChanged ] = useState(false);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
@@ -99,7 +101,7 @@ const App = () => {
       )}
       {token && (
         <Fragment>
-          <Header />
+          <Header songChanged={songChanged} />
           <div className="container">
             <Switch>
               <Route exact path="/" component={Summary} />
@@ -108,7 +110,7 @@ const App = () => {
               <Route path="/followed-artists" component={FollowedArtists} />
               <Route
                 path="/playlists"
-                render={() => <Playlists userId={userData.id} />}
+                render={() => <Playlists userId={userData.id} setSongChanged={setSongChanged} songChanged={songChanged} />}
               />
             </Switch>
           </div>

@@ -3,10 +3,10 @@ import AudioIcon from "../AudioIcon/AudioIcon";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { spotifyApi, transformUnix } from "../../utils";
+import { spotifyApi } from "../../utils";
 import "./NowPlaying.scss";
 
-const NowPlaying = memo(({ history }) => {
+const NowPlaying = memo(({ history, songChanged }) => {
   const [currentTrack, setCurrentTrack] = useState({});
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -15,7 +15,7 @@ const NowPlaying = memo(({ history }) => {
     history.listen(() => {
       fetchCurrentTrack();
     });
-  }, []);
+  }, [songChanged]);
 
   const play = () => {
     spotifyApi
@@ -76,6 +76,9 @@ const NowPlaying = memo(({ history }) => {
   return (
     <div className="NowPlaying">
       <>
+        <div>
+          {artist} - {track}
+        </div>
         <div className="controls">
           <FontAwesomeIcon
             className="controls-icon"
@@ -100,9 +103,6 @@ const NowPlaying = memo(({ history }) => {
             icon="step-forward"
             onClick={playNext}
           />
-        </div>
-        <div>
-          {artist} - {track}
         </div>
         <AudioIcon pause={!isPlaying} />
       </>

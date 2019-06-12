@@ -3,13 +3,13 @@ import Playlist from "../Playlist/Playlist";
 
 import { spotifyApi } from "../../utils";
 
-const Playlists = ({ userId }) => {
+const Playlists = ({ userId, setSongChanged, songChanged }) => {
   const [playlistList, setPlaylistList] = useState([]);
 
   useEffect(() => {
     spotifyApi.getUserPlaylists(userId).then(res => {
       setPlaylistList(res.items);
-      console.log(res);
+      // console.log(res);
     });
   }, []);
   return (
@@ -21,6 +21,8 @@ const Playlists = ({ userId }) => {
             key={playlistData.id}
             userId={userId}
             playlistData={playlistData}
+            setSongChanged={setSongChanged}
+            songChanged={songChanged}
           />
         );
       })}
