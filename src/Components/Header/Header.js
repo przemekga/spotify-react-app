@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import NowPlaying from "../NowPlaying/NowPlaying";
 import "./Header.scss";
 
-const Header = ({songChanged}) => {
+const Header = ({ songChanged, setToken }) => {
   return (
     <nav>
       <ul id="nav-mobile" className="left hide-on-med-and-down">
@@ -23,7 +23,7 @@ const Header = ({songChanged}) => {
           <NavLink to="/playlists">Playlists</NavLink>
         </li>
       </ul>
-      <NowPlaying songChanged={songChanged} />
+      <NowPlaying songChanged={songChanged} setToken={setToken} />
     </nav>
   );
 };

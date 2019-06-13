@@ -60,7 +60,7 @@ window.location.hash = "";
 const App = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
-  const [songChanged, setSongChanged ] = useState(false);
+  const [songChanged, setSongChanged] = useState(false);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
@@ -101,7 +101,7 @@ const App = () => {
       )}
       {token && (
         <Fragment>
-          <Header songChanged={songChanged} />
+          <Header songChanged={songChanged} setToken={setToken} />
           <div className="container">
             <Switch>
               <Route exact path="/" component={Summary} />
@@ -110,7 +110,13 @@ const App = () => {
               <Route path="/followed-artists" component={FollowedArtists} />
               <Route
                 path="/playlists"
-                render={() => <Playlists userId={userData.id} setSongChanged={setSongChanged} songChanged={songChanged} />}
+                render={() => (
+                  <Playlists
+                    userId={userData.id}
+                    setSongChanged={setSongChanged}
+                    songChanged={songChanged}
+                  />
+                )}
               />
             </Switch>
           </div>

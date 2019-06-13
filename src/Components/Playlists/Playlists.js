@@ -16,6 +16,9 @@ const Playlists = ({ userId, setSongChanged, songChanged }) => {
     <>
       <h1>Playlists:</h1>
       {playlistList.map(playlistData => {
+        if (!playlistData.images.length) {
+          playlistData.images.push({ url: "https://placehold.it/300x300" });
+        }
         return (
           <Playlist
             key={playlistData.id}
