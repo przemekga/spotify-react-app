@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import NowPlaying from '../NowPlaying/NowPlaying'
+import NowPlaying from "../NowPlaying/NowPlaying";
 import "./Header.scss";
 
-const Header = () => {
+const Header = ({songChanged}) => {
   return (
     <nav>
       <ul id="nav-mobile" className="left hide-on-med-and-down">
@@ -19,8 +19,11 @@ const Header = () => {
         <li>
           <NavLink to="/followed-artists">Followed Artists</NavLink>
         </li>
+        <li>
+          <NavLink to="/playlists">Playlists</NavLink>
+        </li>
       </ul>
-      <NowPlaying />
+      <NowPlaying songChanged={songChanged} />
     </nav>
   );
 };

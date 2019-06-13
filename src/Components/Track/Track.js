@@ -3,7 +3,7 @@ import "./Track.scss";
 
 import { transformUnix } from "../../utils";
 
-const Track = ({ image, artist, title, length }) => {
+const Track = ({ image, artist, title, length}) => {
   length = transformUnix(length);
   return (
     <li className="Track">
