@@ -64,17 +64,10 @@ const App = () => {
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
-    let timestamp = window.localStorage.tokenTimestamp || Date.now();
-    const expiresIn = timestamp + 36000000;
 
     setToken(_token);
     spotifyApi.setAccessToken(_token);
     window.localStorage.setItem("token", _token);
-    window.localStorage.setItem("tokenTimestamp", Date.now());
-
-    if (timestamp >= expiresIn) {
-      setToken("");
-    }
 
     if (token) {
       spotifyApi.getMe().then(res => setUserData(res));
@@ -115,6 +108,7 @@ const App = () => {
                     userId={userData.id}
                     setSongChanged={setSongChanged}
                     songChanged={songChanged}
+                    setToken={setToken}
                   />
                 )}
               />

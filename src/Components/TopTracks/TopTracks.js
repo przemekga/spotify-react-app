@@ -39,13 +39,14 @@ const TopTracks = () => {
         </div>
       </div>
       <ul className="top-tracks-list">
-        {tracks.map(item => (
+        {tracks.map(trackData => (
           <Track
-            key={item.id}
-            image={item.album.images[2].url}
-            artist={item.artists[0].name}
-            title={item.name}
-            length={item.duration_ms}
+            key={trackData.id}
+            image={trackData.album.images[2].url}
+            artist={trackData.artists[0].name}
+            title={trackData.name}
+            length={trackData.duration_ms}
+            trackId={trackData.id}
           />
         ))}
       </ul>
