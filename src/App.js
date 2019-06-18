@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 
 import Summary from "./Components/Summary/Summary";
 import TopArtists from "./Components/TopArtists/TopArtists";

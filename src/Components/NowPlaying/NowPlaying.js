@@ -10,6 +10,7 @@ import "./NowPlaying.scss";
 
 const NowPlaying = memo(({ history }) => {
   const [currentTrack, setCurrentTrack] = useState({});
+  const [headerVisible, setHeaderVisible] = useState(true);
   const dispatch = useDispatch();
   const songChanged = useSelector(state => state.songChanged);
   const isPlaying = useSelector(state => state.isPlaying);
@@ -19,7 +20,27 @@ const NowPlaying = memo(({ history }) => {
     history.listen(() => {
       fetchCurrentTrack();
     });
+    window.addEventListener('scroll', trackScrolling)
+
+    return function() {
+      window.removeEventListener('scroll', trackScrolling)
+    }
   }, [songChanged]);
+
+  const isBottom = (el) => {
+    return el.getBoundingClientRect().bottom <= 0;
+  }
+
+  const trackScrolling = () => {
+    const wrappedElement = document.querySelector('nav');
+    if (isBottom(wrappedElement)) {
+      console.log(isBottom(wrappedElement));
+      setHeaderVisible(false);
+    } else {
+      isBottom(wrappedElement)
+      setHeaderVisible(true);
+    }
+  };
 
   const play = () => {
     spotifyApi
@@ -85,9 +106,9 @@ const NowPlaying = memo(({ history }) => {
   const { artist, track } = currentTrack;
 
   return (
-    <div className="NowPlaying">
+    <div className={headerVisible ? `NowPlaying` : 'NowPlaying-scrolled'}>
       <>
-        <div>
+        <div className="songTitle">
           {artist} - {track}
         </div>
         <div className="controls">
