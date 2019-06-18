@@ -23,7 +23,7 @@ const Header = ({ songChanged, setToken }) => {
           <NavLink to="/playlists">Playlists</NavLink>
         </li>
       </ul>
-      <NowPlaying songChanged={songChanged} setToken={setToken} />
+      <NowPlaying songChanged={songChanged} />
     </nav>
   );
 };

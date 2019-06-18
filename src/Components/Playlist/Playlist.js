@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Track from "../Track/Track";
+import { useDispatch } from "react-redux";
+import { songHasChanged } from "../../store/actions/actions";
+
 import { spotifyApi } from "../../utils";
 
 import "./Playlist.scss";
 
-const Playlist = ({ userId, playlistData, setSongChanged, songChanged }) => {
+const Playlist = ({ userId, playlistData }) => {
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [showTracks, setShowTracks] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     spotifyApi.getPlaylistTracks(userId, playlistData.id).then(res => {
@@ -20,7 +24,7 @@ const Playlist = ({ userId, playlistData, setSongChanged, songChanged }) => {
 
   const play = uri => {
     spotifyApi.play({ context_uri: uri }).then(() => {
-      setSongChanged(!songChanged);
+      dispatch(songHasChanged());
     });
   };
 

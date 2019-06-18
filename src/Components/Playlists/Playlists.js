@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Playlist from "../Playlist/Playlist";
-
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/actions/actions";
 import { spotifyApi } from "../../utils";
 
-const Playlists = ({ userId, setSongChanged, songChanged, setToken }) => {
+const Playlists = ({ userId, setSongChanged, songChanged }) => {
   const [playlistList, setPlaylistList] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     spotifyApi
@@ -15,7 +17,7 @@ const Playlists = ({ userId, setSongChanged, songChanged, setToken }) => {
       })
       .catch(err => {
         if (err.status === 401) {
-          setToken("");
+          dispatch(setToken(""));
         }
       });
   }, []);

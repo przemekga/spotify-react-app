@@ -18,6 +18,8 @@ import {
 
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "./store/actions/actions";
 
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
@@ -58,14 +60,15 @@ const hash = window.location.hash
 window.location.hash = "";
 
 const App = () => {
-  const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
   const [songChanged, setSongChanged] = useState(false);
+  const dispatch = useDispatch()
+  const token = useSelector((state) => state.token);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
 
-    setToken(_token);
+    dispatch(setToken(_token));
     spotifyApi.setAccessToken(_token);
     window.localStorage.setItem("token", _token);
 
@@ -108,7 +111,6 @@ const App = () => {
                     userId={userData.id}
                     setSongChanged={setSongChanged}
                     songChanged={songChanged}
-                    setToken={setToken}
                   />
                 )}
               />

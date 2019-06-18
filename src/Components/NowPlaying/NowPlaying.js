@@ -2,13 +2,17 @@ import React, { useEffect, useState, memo } from "react";
 import AudioIcon from "../AudioIcon/AudioIcon";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, startPlayback, stopPlayback } from "../../store/actions/actions";
 
 import { spotifyApi } from "../../utils";
 import "./NowPlaying.scss";
 
-const NowPlaying = memo(({ history, songChanged, setToken }) => {
+const NowPlaying = memo(({ history }) => {
   const [currentTrack, setCurrentTrack] = useState({});
-  const [isPlaying, setIsPlaying] = useState(false);
+  const dispatch = useDispatch();
+  const songChanged = useSelector(state => state.songChanged);
+  const isPlaying = useSelector(state => state.isPlaying);
 
   useEffect(() => {
     fetchCurrentTrack();
@@ -21,7 +25,7 @@ const NowPlaying = memo(({ history, songChanged, setToken }) => {
     spotifyApi
       .play({})
       .then(res => {
-        setIsPlaying(true);
+        dispatch(startPlayback());
       })
       .catch(err => {
         console.log(err);
@@ -32,7 +36,7 @@ const NowPlaying = memo(({ history, songChanged, setToken }) => {
     spotifyApi
       .pause({})
       .then(res => {
-        setIsPlaying(false);
+        dispatch(stopPlayback());
       })
       .catch(err => {
         console.log(err);
@@ -66,14 +70,14 @@ const NowPlaying = memo(({ history, songChanged, setToken }) => {
             track: res.item.name || "",
             deviceId: res.device.id
           });
-          setIsPlaying(res.is_playing);
+          res.is_playing ? dispatch(startPlayback()) : dispatch(stopPlayback());
         } else {
-          setIsPlaying(false);
+          dispatch(stopPlayback());
         }
       })
       .catch(err => {
         if (err.status === 401) {
-          setToken("");
+          dispatch(setToken(""));
         }
       });
   };
