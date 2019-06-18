@@ -11,6 +11,7 @@ const initState = {
   token: "",
   isPlaying: false,
   songChanged: false,
+  userData: {}
 };
 
 const rootReducer = (state = initState, action) => {
@@ -20,6 +21,11 @@ const rootReducer = (state = initState, action) => {
         ...state,
         token: action.token
       };
+    case "SET_USER_DATA":
+      return {
+        ...state,
+        userData: action.userData
+      }
     case "STOP_PLAYBACK":
       return {
         ...state,

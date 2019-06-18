@@ -19,7 +19,7 @@ import {
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "./store/actions/actions";
+import { setToken, setUserData } from "./store/actions/actions";
 
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
@@ -60,10 +60,9 @@ const hash = window.location.hash
 window.location.hash = "";
 
 const App = () => {
-  const [userData, setUserData] = useState({});
-  const [songChanged, setSongChanged] = useState(false);
   const dispatch = useDispatch()
   const token = useSelector((state) => state.token);
+  const userData = useSelector((state) => state.userData);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
@@ -72,8 +71,12 @@ const App = () => {
     spotifyApi.setAccessToken(_token);
     window.localStorage.setItem("token", _token);
 
-    if (token) {
-      spotifyApi.getMe().then(res => setUserData(res));
+    if (Object.keys(userData).length === 0 && userData.constructor === Object) {
+      spotifyApi.getMe().then(res => dispatch(setUserData(res))).catch(err => {
+        if (err.status === 401) {
+          setToken('')
+        }
+      });
     }
   }, []);
 
@@ -97,7 +100,7 @@ const App = () => {
       )}
       {token && (
         <Fragment>
-          <Header songChanged={songChanged} setToken={setToken} />
+          <Header />
           <div className="container">
             <Switch>
               <Route exact path="/" component={Summary} />
@@ -109,8 +112,6 @@ const App = () => {
                 render={() => (
                   <Playlists
                     userId={userData.id}
-                    setSongChanged={setSongChanged}
-                    songChanged={songChanged}
                   />
                 )}
               />

@@ -13,13 +13,17 @@ const Playlist = ({ userId, playlistData }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    spotifyApi.getPlaylistTracks(userId, playlistData.id).then(res => {
-      setPlaylistTracks(res.items);
-    });
   }, []);
 
   const toggleTrackList = () => {
-    setShowTracks(!showTracks);
+    if (playlistTracks.length) {
+      setShowTracks(!showTracks);
+    } else {
+      spotifyApi.getPlaylistTracks(userId, playlistData.id).then(res => {
+        setPlaylistTracks(res.items);
+        setShowTracks(!showTracks);
+      });
+    }
   };
 
   const play = uri => {
