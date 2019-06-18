@@ -1,9 +1,11 @@
 import React from "react";
+import TrackAnalysis from "../TrackAnalysis/TrackAnalysis";
+
 import "./Track.scss";
 
 import { transformUnix } from "../../utils";
 
-const Track = ({ image, artist, title, length}) => {
+const Track = ({ image, artist, title, length, trackId }) => {
   length = transformUnix(length);
   return (
     <li className="Track">
@@ -16,6 +18,7 @@ const Track = ({ image, artist, title, length}) => {
         </div>
         <div className="lgt">{length}</div>
       </div>
+      <TrackAnalysis trackId={trackId} />
     </li>
   );
 };

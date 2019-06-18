@@ -60,21 +60,14 @@ window.location.hash = "";
 const App = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
-  const [songChanged, setSongChanged ] = useState(false);
+  const [songChanged, setSongChanged] = useState(false);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
-    let timestamp = window.localStorage.tokenTimestamp || Date.now();
-    const expiresIn = timestamp + 36000000;
 
     setToken(_token);
     spotifyApi.setAccessToken(_token);
     window.localStorage.setItem("token", _token);
-    window.localStorage.setItem("tokenTimestamp", Date.now());
-
-    if (timestamp >= expiresIn) {
-      setToken("");
-    }
 
     if (token) {
       spotifyApi.getMe().then(res => setUserData(res));
@@ -101,7 +94,7 @@ const App = () => {
       )}
       {token && (
         <Fragment>
-          <Header songChanged={songChanged} />
+          <Header songChanged={songChanged} setToken={setToken} />
           <div className="container">
             <Switch>
               <Route exact path="/" component={Summary} />
@@ -110,7 +103,14 @@ const App = () => {
               <Route path="/followed-artists" component={FollowedArtists} />
               <Route
                 path="/playlists"
-                render={() => <Playlists userId={userData.id} setSongChanged={setSongChanged} songChanged={songChanged} />}
+                render={() => (
+                  <Playlists
+                    userId={userData.id}
+                    setSongChanged={setSongChanged}
+                    songChanged={songChanged}
+                    setToken={setToken}
+                  />
+                )}
               />
             </Switch>
           </div>

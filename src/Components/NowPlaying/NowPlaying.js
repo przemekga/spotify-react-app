@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { spotifyApi } from "../../utils";
 import "./NowPlaying.scss";
 
-const NowPlaying = memo(({ history, songChanged }) => {
+const NowPlaying = memo(({ history, songChanged, setToken }) => {
   const [currentTrack, setCurrentTrack] = useState({});
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -57,18 +57,25 @@ const NowPlaying = memo(({ history, songChanged }) => {
   };
 
   const fetchCurrentTrack = () => {
-    spotifyApi.getMyCurrentPlaybackState().then(res => {
-      if (res !== "") {
-        setCurrentTrack({
-          artist: res.item.artists[0].name || "",
-          track: res.item.name || "",
-          deviceId: res.device.id
-        });
-        setIsPlaying(res.is_playing);
-      } else {
-        setIsPlaying(false);
-      }
-    });
+    spotifyApi
+      .getMyCurrentPlaybackState()
+      .then(res => {
+        if (res !== "") {
+          setCurrentTrack({
+            artist: res.item.artists[0].name || "",
+            track: res.item.name || "",
+            deviceId: res.device.id
+          });
+          setIsPlaying(res.is_playing);
+        } else {
+          setIsPlaying(false);
+        }
+      })
+      .catch(err => {
+        if (err.status === 401) {
+          setToken("");
+        }
+      });
   };
 
   const { artist, track } = currentTrack;
