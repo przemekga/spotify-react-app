@@ -9,7 +9,6 @@ const Header = () => {
 
   useEffect(() => {
     M.Sidenav.init(sidenav.current);
-    console.log(sidenav);
   }, []);
 
   return (
