@@ -1,5 +1,6 @@
 import React from "react";
 import TrackAnalysis from "../TrackAnalysis/TrackAnalysis";
+import { Link } from "react-router-dom";
 
 import "./Track.scss";
 
