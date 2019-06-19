@@ -6,6 +6,7 @@ import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
 import FollowedArtists from "./Components/FollowedArtists/FollowedArtists";
 import Playlists from "./Components/Playlists/Playlists";
+import TrackAnalysis from './Components/TrackAnalysis/TrackAnalysis';
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -60,9 +61,9 @@ const hash = window.location.hash
 window.location.hash = "";
 
 const App = () => {
-  const dispatch = useDispatch()
-  const token = useSelector((state) => state.token);
-  const userData = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.token);
+  const userData = useSelector(state => state.userData);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
@@ -72,11 +73,14 @@ const App = () => {
     window.localStorage.setItem("token", _token);
 
     if (Object.keys(userData).length === 0 && userData.constructor === Object) {
-      spotifyApi.getMe().then(res => dispatch(setUserData(res))).catch(err => {
-        if (err.status === 401) {
-          setToken('')
-        }
-      });
+      spotifyApi
+        .getMe()
+        .then(res => dispatch(setUserData(res)))
+        .catch(err => {
+          if (err.status === 401) {
+            setToken("");
+          }
+        });
     }
   }, []);
 
@@ -107,14 +111,8 @@ const App = () => {
               <Route path="/top-tracks" component={TopTracks} />
               <Route path="/top-artists" component={TopArtists} />
               <Route path="/followed-artists" component={FollowedArtists} />
-              <Route
-                path="/playlists"
-                render={() => (
-                  <Playlists
-                    userId={userData.id}
-                  />
-                )}
-              />
+              <Route path="/playlists" component={Playlists} />
+              <Route path="/track/:id" component={TrackAnalysis} />
             </Switch>
           </div>
         </Fragment>

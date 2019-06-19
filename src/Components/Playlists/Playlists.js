@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Playlist from "../Playlist/Playlist";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../store/actions/actions";
 import { spotifyApi } from "../../utils";
 
-const Playlists = ({ userId, setSongChanged, songChanged }) => {
+const Playlists = ({ setSongChanged, songChanged }) => {
   const [playlistList, setPlaylistList] = useState([]);
   const dispatch = useDispatch();
+  const userId = useSelector(state => state.userData.id);
 
   useEffect(() => {
     spotifyApi

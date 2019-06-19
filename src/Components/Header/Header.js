@@ -14,9 +14,9 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <a href="#" data-target="slide-out" className="sidenav-trigger">
+        <button data-target="slide-out" className="sidenav-trigger">
           <i className="material-icons">menu</i>
-        </a>
+        </button>
         <ul id="nav-mobile" className="left hide-on-med-and-down">
           <li>
             <NavLink to="/">Summary</NavLink>
