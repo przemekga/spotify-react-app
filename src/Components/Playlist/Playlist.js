@@ -12,8 +12,7 @@ const Playlist = ({ userId, playlistData }) => {
   const [showTracks, setShowTracks] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const toggleTrackList = () => {
     if (playlistTracks.length) {
@@ -56,17 +55,19 @@ const Playlist = ({ userId, playlistData }) => {
               </div>
             </div>
           </div>
-          {showTracks &&
-            playlistTracks.map(item => (
-              <Track
-                key={item.track.id}
-                image={item.track.album.images[2].url}
-                artist={item.track.artists[0].name}
-                title={item.track.name}
-                length={item.track.duration_ms}
-                trackId={item.track.id}
-              />
-            ))}
+          <ul>
+            {showTracks &&
+              playlistTracks.map(item => (
+                <Track
+                  key={item.track.id}
+                  image={item.track.album.images[2].url}
+                  artist={item.track.artists[0].name}
+                  title={item.track.name}
+                  length={item.track.duration_ms}
+                  trackId={item.track.id}
+                />
+              ))}
+          </ul>
         </div>
       </div>
     </div>

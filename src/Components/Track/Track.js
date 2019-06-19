@@ -8,7 +8,7 @@ import { transformUnix } from "../../utils";
 const Track = ({ image, artist, title, length, trackId }) => {
   length = transformUnix(length);
   return (
-    <li>
+    <li className="TrackContainer">
       <Link className="Track" to={`/track/${trackId}`}>
         <div className="tmb">
           <img src={image} alt="" />
