@@ -7,6 +7,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "materialize-css": "^1.0.0",
+    "nivo": "^0.31.0",
     "node-sass": "^4.11.0",
     "react": "next",
     "react-dom": "next",

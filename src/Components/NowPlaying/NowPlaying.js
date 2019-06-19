@@ -3,7 +3,11 @@ import AudioIcon from "../AudioIcon/AudioIcon";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken, startPlayback, stopPlayback } from "../../store/actions/actions";
+import {
+  setToken,
+  startPlayback,
+  stopPlayback
+} from "../../store/actions/actions";
 
 import { spotifyApi } from "../../utils";
 import "./NowPlaying.scss";
@@ -12,32 +16,35 @@ const NowPlaying = memo(({ history }) => {
   const [currentTrack, setCurrentTrack] = useState({});
   const [headerVisible, setHeaderVisible] = useState(true);
   const dispatch = useDispatch();
-  const songChanged = useSelector(state => state.songChanged);
-  const isPlaying = useSelector(state => state.isPlaying);
+  const { songChanged, isPlaying } = useSelector(state => {
+    return {
+      songChanged: state.songChanged,
+      isPlaying: state.isPlaying
+    };
+  });
 
   useEffect(() => {
     fetchCurrentTrack();
     history.listen(() => {
       fetchCurrentTrack();
     });
-    window.addEventListener('scroll', trackScrolling)
+    window.addEventListener("scroll", trackScrolling);
 
     return function() {
-      window.removeEventListener('scroll', trackScrolling)
-    }
+      window.removeEventListener("scroll", trackScrolling);
+    };
   }, [songChanged]);
 
-  const isBottom = (el) => {
+  const isBottom = el => {
     return el.getBoundingClientRect().bottom <= 0;
-  }
+  };
 
   const trackScrolling = () => {
-    const wrappedElement = document.querySelector('nav');
+    const wrappedElement = document.querySelector("nav");
     if (isBottom(wrappedElement)) {
-      console.log(isBottom(wrappedElement));
       setHeaderVisible(false);
     } else {
-      isBottom(wrappedElement)
+      isBottom(wrappedElement);
       setHeaderVisible(true);
     }
   };
@@ -49,7 +56,9 @@ const NowPlaying = memo(({ history }) => {
         dispatch(startPlayback());
       })
       .catch(err => {
-        console.log(err);
+        if (err.status === 401) {
+          dispatch(setToken(""));
+        }
       });
   };
 
@@ -60,7 +69,9 @@ const NowPlaying = memo(({ history }) => {
         dispatch(stopPlayback());
       })
       .catch(err => {
-        console.log(err);
+        if (err.status === 401) {
+          dispatch(setToken(""));
+        }
       });
   };
 
@@ -106,7 +117,7 @@ const NowPlaying = memo(({ history }) => {
   const { artist, track } = currentTrack;
 
   return (
-    <div className={headerVisible ? `NowPlaying` : 'NowPlaying-scrolled'}>
+    <div className={headerVisible ? `NowPlaying` : "NowPlaying-scrolled"}>
       <>
         <div className="songTitle">
           {artist} - {track}
