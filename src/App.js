@@ -14,7 +14,8 @@ import {
   faPause,
   faStepForward,
   faStepBackward,
-  faPlayCircle
+  faPlayCircle,
+  faChartLine
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Switch, Route } from "react-router-dom";
@@ -25,7 +26,7 @@ import { setToken, setUserData } from "./store/actions/actions";
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
 
-library.add(faPlay, faPause, faStepForward, faStepBackward, faPlayCircle);
+library.add(faPlay, faPause, faStepForward, faStepBackward, faPlayCircle, faChartLine);
 
 export const authEndpoint = "https://accounts.spotify.com/authorize?";
 

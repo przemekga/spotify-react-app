@@ -1,16 +1,19 @@
 import React from 'react'
-import { ResponsiveBar  } from "nivo";
+import { Radar  } from "nivo";
 
-const BarChart = ({data}) => {
+const RadarChart = ({data}) => {
   return (
-    <ResponsiveBar
+    <Radar
       data={data}
       indexBy="Song Property"
       keys={["Value"]}
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
+      maxValue={1}
+      width={700}
+      height={500}
     />
   )
 }
 
-export default BarChart
+export default RadarChart
