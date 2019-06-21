@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from "react";
 import AudioIcon from "../AudioIcon/AudioIcon";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -98,6 +98,7 @@ const NowPlaying = memo(({ history }) => {
       .then(res => {
         if (res !== "") {
           setCurrentTrack({
+            songId: res.item.id,
             artist: res.item.artists[0].name || "",
             track: res.item.name || "",
             deviceId: res.device.id
@@ -119,9 +120,13 @@ const NowPlaying = memo(({ history }) => {
   return (
     <div className={headerVisible ? `NowPlaying` : "NowPlaying-scrolled"}>
       <>
-        <div className="songTitle">
-          {artist} - {track}
-        </div>
+      {
+        currentTrack.hasOwnProperty('songId') && (
+          <Link to={`/track/${currentTrack.songId}`} className="songTitle">
+            {artist} - {track}
+          </Link>
+        ) 
+      }
         <div className="controls">
           <FontAwesomeIcon
             className="controls-icon"
