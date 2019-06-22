@@ -118,7 +118,7 @@ const NowPlaying = memo(({ history }) => {
   const { artist, track } = currentTrack;
 
   return (
-    <div className={headerVisible ? `NowPlaying` : "NowPlaying-scrolled"}>
+    <div className={headerVisible ? `NowPlaying` : "NowPlaying NowPlaying-scrolled"}>
       <>
       {
         currentTrack.hasOwnProperty('songId') && (

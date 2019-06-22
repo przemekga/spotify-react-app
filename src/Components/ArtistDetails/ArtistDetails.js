@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Tag from "../Tag/Tag";
 import Track from "../Track/Track";
+import AlbumCard from "../AlbumCard/AlbumCard";
 
 import "./ArtistDetails.scss";
 
@@ -19,7 +20,10 @@ const ArtistDetails = ({ match }) => {
 
   async function getArtistData(id) {
     const summary = spotifyApi.getArtist(id);
-    const albums = spotifyApi.getArtistAlbums(id);
+    const albums = spotifyApi.getArtistAlbums(id, {
+      include_groups: 'album',
+      limit: 50
+    });
     const relatedArtists = spotifyApi.getArtistRelatedArtists(id);
     const topTracks = spotifyApi.getArtistTopTracks(id, "from_token");
 
@@ -71,6 +75,15 @@ const ArtistDetails = ({ match }) => {
           </div>
           <div className="col-12">
             <h5>Albums:</h5>
+            <div className="row">
+              {artistData.albums.items.map(item => {
+                return (
+                  <div key={item.id} className="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <AlbumCard data={item} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </>
       ) : (

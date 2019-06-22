@@ -19,8 +19,14 @@
   display: flex;
   padding: 0 10px;
   flex: 1;
+  position: relative;
   .lgt {
-    margin-left: 10px;
+    margin-left: auto;
+  }
+  @media (max-width: 576px) {
+    .trackSongTitle {
+      max-width: 50%;
+    }
   }
 }
 
@@ -28,9 +34,16 @@
   height: 12px;
   margin-left: auto;
   text-align: right;
+  width: 100%!important;
+  position: absolute;
+  right: 45px;
+
   .bar {
     background: #ef9a9a;
     height: 100%;
     display: inline-block;
+  }
+  @media (min-width: 920px) {
+    width: 25%!important;
   }
 }

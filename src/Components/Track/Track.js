@@ -15,7 +15,6 @@ const Track = ({ image, artist, title, length, trackId, popularity, showName = t
   
   useEffect(() => {
     M.Tooltip.init(tooltipRef.current);
-    console.log(showName)
   }, [])
 
   return (
@@ -25,10 +24,10 @@ const Track = ({ image, artist, title, length, trackId, popularity, showName = t
           <img src={image} alt="" />
         </div> 
         <div className="desc">
-          <div>
+          <div className="trackSongTitle">
             {showName && `${artist} -`} {title}
           </div>
-          <div className=" popularity" style={{width: `${barMaxWidth}px`}}>
+          <div className="popularity" style={{width: `${barMaxWidth}px`}}>
             <div data-tooltip={`Popularity: ${popularity}`}  ref={tooltipRef} data-position="bottom" className="tooltipped bar" style={{width: `${popularityPercentage}%`}}></div>
           </div>
           <div className="lgt">{length}</div>
