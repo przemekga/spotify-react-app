@@ -116,6 +116,7 @@ const TopTracks = () => {
             title={trackData.name}
             length={trackData.duration_ms}
             trackId={trackData.id}
+            showName={false}
           />
         ))}
       </ul>

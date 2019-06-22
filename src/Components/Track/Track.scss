@@ -20,6 +20,17 @@
   padding: 0 10px;
   flex: 1;
   .lgt {
-    margin-left: auto;
+    margin-left: 10px;
+  }
+}
+
+.popularity {
+  height: 12px;
+  margin-left: auto;
+  text-align: right;
+  .bar {
+    background: #ef9a9a;
+    height: 100%;
+    display: inline-block;
   }
 }

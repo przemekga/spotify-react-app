@@ -63,9 +63,14 @@ const ArtistDetails = ({ match }) => {
                   title={item.name}
                   length={item.duration_ms}
                   trackId={item.id}
+                  popularity={item.popularity}
+                  showName={false}
                 />
               ))}
             </ul>
+          </div>
+          <div className="col-12">
+            <h5>Albums:</h5>
           </div>
         </>
       ) : (
