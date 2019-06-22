@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Radar, ResponsiveLine } from "nivo";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
 import { spotifyApi } from "../../utils";
+import PresentationHeader from "../PresentationHeader/PresentationHeader";
 
 const TrackAnalysis = ({ match }) => {
   const [trackData, setTrackData] = useState({});
@@ -65,31 +66,13 @@ const TrackAnalysis = ({ match }) => {
   const modes = ["Minor", "Major"];
 
   useEffect(() => {
-    let tracksReady = false;
-    let analysisReady = false;
-    let featuresReady = false;
-    function isLoadingFinished() {
-      if (tracksReady && analysisReady && featuresReady) {
-        setIsLoading(false);
-      }
-    }
-    spotifyApi.getTrack(match.params.id).then(res => {
-      setTrackData(res);
-      console.log(res);
-      tracksReady = true;
-      isLoadingFinished();
-    });
-    spotifyApi.getAudioAnalysisForTrack(match.params.id).then(res => {
-      console.log(res);
-      setTrackAnalysis(res);
-      analysisReady = true;
-      isLoadingFinished();
-    });
-    spotifyApi.getAudioFeaturesForTrack(match.params.id).then(res => {
-      console.log(res);
-      setTrackFeatures(res);
-      featuresReady = true;
-      isLoadingFinished();
+    getArtistData(match.params.id).then(res => {
+      const { summary, analysis, features } = res;
+      setTrackData(summary);
+      setTrackAnalysis(analysis);
+      setTrackFeatures(features);
+      setIsLoading(false);
+      console.log(summary);
     });
   }, [match.params.id]);
 
@@ -99,6 +82,18 @@ const TrackAnalysis = ({ match }) => {
       Value: trackFeatures[songProperty.name]
     };
   });
+
+  async function getArtistData(id) {
+    const summary = spotifyApi.getTrack(id);
+    const analysis = spotifyApi.getAudioAnalysisForTrack(id);
+    const features = spotifyApi.getAudioFeaturesForTrack(id);
+    const finalResult = {
+      summary: await summary,
+      analysis: await analysis,
+      features: await features
+    };
+    return finalResult;
+  }
 
   const audioFeatureDescriptions = songProperties.map(property => (
     <p key={property.name}>
@@ -113,10 +108,12 @@ const TrackAnalysis = ({ match }) => {
         <LoadingIcon />
       ) : (
         <>
+          <PresentationHeader
+            image={trackData.album.images[0].url}
+            name={`${trackData.artists[0].name} - ${trackData.name}`}
+            secondLine={false}
+          />
           <div className="col-12">
-            <h3>
-              {trackData.artists[0].name} - {trackData.name}
-            </h3>
             <iframe
               src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
               frameBorder="0"
@@ -124,20 +121,28 @@ const TrackAnalysis = ({ match }) => {
               allowtransparency="true"
               height="80px"
               width="100%"
-              style={{maxWidth: "400px"}}
             />
             <h5>Audio Features</h5>
           </div>
-          <div className="col-6 col-md-4 col-lg-2">
-            <strong>Key</strong>: {pitches[trackFeatures.key]}
+          <div className="col-12 col-md-4">
+            <p>
+              <strong>Key</strong>: {pitches[trackFeatures.key]}
+            </p>
+            <p>
+              <strong>Mode</strong>: {modes[trackFeatures.mode]}
+            </p>
+            <p>
+              <strong>Tempo</strong>: {Math.floor(trackAnalysis.track.tempo)} BPM
+            </p>
+            {trackFeaturesChartData.map(item => {
+              return (
+                <p>
+                  <strong style={{textTransform: 'capitalize'}}>{item["Song Property"]}</strong>: {item["Value"]}
+                </p>
+              )
+            })}
           </div>
-          <div className="col-6 col-md-4 col-lg-2">
-            <strong>Mode</strong>: {modes[trackFeatures.mode]}
-          </div>
-          <div className="col-6 col-md-4 col-lg-2">
-            <strong>Tempo</strong>: {Math.floor(trackAnalysis.track.tempo)} BPM
-          </div>
-          <div className="col-12">
+          <div className="col-12 col-md-8">
             <div
               style={{
                 height: "500px",
@@ -156,6 +161,8 @@ const TrackAnalysis = ({ match }) => {
                 height={500}
               />
             </div>
+          </div>
+          <div className="col-12">
             {audioFeatureDescriptions}
           </div>
         </>
