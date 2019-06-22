@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './Tag.module.scss'
 
-const Tag = ({name}) => {
+const Tag = ({name, limit = true}) => {
 
   function truncate(input, limit) {
     if (input.length > limit)
@@ -13,7 +13,7 @@ const Tag = ({name}) => {
 
   return (
     <div className={styles.Tag} title={name}>
-      {truncate(name, 14)}
+      {limit ? truncate(name, 14) : name}
     </div>
   )
 }

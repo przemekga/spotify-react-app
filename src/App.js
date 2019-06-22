@@ -7,6 +7,7 @@ import Header from "./Components/Header/Header";
 import FollowedArtists from "./Components/FollowedArtists/FollowedArtists";
 import Playlists from "./Components/Playlists/Playlists";
 import TrackAnalysis from './Components/TrackAnalysis/TrackAnalysis';
+import ArtistDetails from './Components/ArtistDetails/ArtistDetails';
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -114,6 +115,7 @@ const App = () => {
               <Route path="/followed-artists" component={FollowedArtists} />
               <Route path="/playlists" component={Playlists} />
               <Route path="/track/:id" component={TrackAnalysis} />
+              <Route path="/artist/:id" component={ArtistDetails} />
             </Switch>
           </div>
         </Fragment>

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Tag from "../Tag/Tag";
-import RelatedArtists from "../RelatedArtist/List";
+import { Link } from "react-router-dom";
 
 import "./Artist.scss";
 
 const Artist = ({ image, name, col, tags, followers, id }) => {
-  const [relatedArtistShown, setRelatedArtistShown] = useState(false);
-
   if (tags.length > 5) {
     tags.length = 4;
   }
@@ -15,11 +13,11 @@ const Artist = ({ image, name, col, tags, followers, id }) => {
 
   return (
     <li className={`d-flex flex-column col-12 col-sm-6 col-md-${col}`}>
-      <div className="artist">
+      <Link to={`/artist/${id}`} className="artist">
         <div className="row">
           <div className="col-6">
             <div className="card-image">
-              <img src={image} alt="" />
+              <img src={image} alt={name} />
             </div>
           </div>
           <div className="col-6">
@@ -30,7 +28,7 @@ const Artist = ({ image, name, col, tags, followers, id }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </li>
   );
 };
