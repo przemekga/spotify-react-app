@@ -10,6 +10,13 @@ const TopArtist = () => {
       .getMyTopArtists()
       .then(data => {
         setAlbums(data.items);
+        console.log(data);
+        spotifyApi.getArtist("64tNsm6TnZe2zpcMVMOoHL").then(res => {
+          console.log(res)
+        })
+        spotifyApi.getArtistTopTracks("64tNsm6TnZe2zpcMVMOoHL").then(res => {
+          console.log(res)
+        })
       })
       .catch(err => console.log(err));
   }, []);

@@ -114,9 +114,9 @@ const TrackAnalysis = ({ match }) => {
       ) : (
         <>
           <div className="col-12">
-            <h1>
+            <h3>
               {trackData.artists[0].name} - {trackData.name}
-            </h1>
+            </h3>
             <iframe
               src={`https://open.spotify.com/embed?uri=${trackData.uri}`}
               frameBorder="0"
