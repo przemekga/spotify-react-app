@@ -28,17 +28,8 @@ const Artist = ({ image, name, col, tags, followers, id }) => {
               <p>Followers: {followers}</p>
               <div style={{ margin: "0 -4px" }}>{tags}</div>
             </div>
-            <div>
-              <div
-                className="btn-small"
-                onClick={() => setRelatedArtistShown(!relatedArtistShown)}
-              >
-                {relatedArtistShown ? `Hide related` : `Show related`}
-              </div>
-            </div>
           </div>
         </div>
-        {relatedArtistShown ? <RelatedArtists id={id} /> : null}
       </div>
     </li>
   );

@@ -1,22 +1,27 @@
-import React from 'react'
-import './Track.scss'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Track = ({image, artist, title, length}) => {
-  function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  }
-  length = millisToMinutesAndSeconds(length);
+import "./Track.scss";
+
+import { transformUnix } from "../../utils";
+
+const Track = ({ image, artist, title, length, trackId }) => {
+  length = transformUnix(length);
   return (
-    <li className="Track">
-      <div className="tmb"><img src={image} alt=""/></div>
-      <div className="desc">
-        <div>{artist} - {title}</div>
-        <div className="lgt">{length}</div>
-      </div>
+    <li className="TrackContainer">
+      <Link className="Track" to={`/track/${trackId}`}>
+        <div className="tmb">
+          <img src={image} alt="" />
+        </div>
+        <div className="desc">
+          <div>
+            {artist} - {title}
+          </div>
+          <div className="lgt">{length}</div>
+        </div>
+      </Link>
     </li>
-  )
-}
+  );
+};
 
-export default Track
+export default Track;

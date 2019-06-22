@@ -38,6 +38,7 @@ nav {
 
   @media #{$large-and-up} {
     a.sidenav-trigger { display: none; }
+    button.sidenav-trigger { display: none; }
   }
 
 
@@ -198,7 +199,7 @@ nav {
   nav.nav-extended .nav-wrapper {
     min-height: $navbar-height;
   }
-  nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+  nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i, nav button.sidenav-trigger i, nav button.sidenav-trigger {
     height: $navbar-height;
     line-height: $navbar-line-height;
   }

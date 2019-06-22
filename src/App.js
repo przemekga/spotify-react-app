@@ -1,21 +1,37 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 
 import Summary from "./Components/Summary/Summary";
 import TopArtists from "./Components/TopArtists/TopArtists";
 import TopTracks from "./Components/TopTracks/TopTracks";
 import Header from "./Components/Header/Header";
-import FollowedArtists from './Components/FollowedArtists/FollowedArtists'
+import FollowedArtists from "./Components/FollowedArtists/FollowedArtists";
+import Playlists from "./Components/Playlists/Playlists";
+import TrackAnalysis from './Components/TrackAnalysis/TrackAnalysis';
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlay,
+  faPause,
+  faStepForward,
+  faStepBackward,
+  faPlayCircle,
+  faChartLine
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Switch, Route } from "react-router-dom";
 import { spotifyApi } from "./utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken, setUserData } from "./store/actions/actions";
 
 import "./scss/materialize/materialize.scss";
 import "./App.scss";
 
+library.add(faPlay, faPause, faStepForward, faStepBackward, faPlayCircle, faChartLine);
+
 export const authEndpoint = "https://accounts.spotify.com/authorize?";
 
 const clientId = "10fa5b3ca0fe4299923fecd6424038df";
-const redirectUri = "http://localhost:3000/";
+const redirectUri = process.env.REACT_APP_URL;
 const scopes = [
   "user-read-currently-playing",
   "user-read-playback-state",
@@ -23,7 +39,13 @@ const scopes = [
   "user-read-email",
   "user-top-read",
   "user-follow-modify",
-  "user-follow-read"
+  "user-follow-read",
+  "app-remote-control",
+  "user-modify-playback-state",
+  "playlist-read-private",
+  "playlist-modify-public",
+  "playlist-modify-private",
+  "playlist-read-collaborative"
 ];
 
 const hash = window.location.hash
@@ -40,20 +62,26 @@ const hash = window.location.hash
 window.location.hash = "";
 
 const App = () => {
-  const [token, setToken] = useState("");
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.token);
+  const userData = useSelector(state => state.userData);
 
   useEffect(() => {
     let _token = hash.access_token || window.localStorage.token;
-    let timestamp = window.localStorage.tokenTimestamp || Date.now();
-    const expiresIn = timestamp + 36000000;
 
-    setToken(_token);
+    dispatch(setToken(_token));
     spotifyApi.setAccessToken(_token);
     window.localStorage.setItem("token", _token);
-    window.localStorage.setItem("tokenTimestamp", Date.now());
 
-    if (timestamp >= expiresIn) {
-      setToken('');
+    if (Object.keys(userData).length === 0 && userData.constructor === Object) {
+      spotifyApi
+        .getMe()
+        .then(res => dispatch(setUserData(res)))
+        .catch(err => {
+          if (err.status === 401) {
+            setToken("");
+          }
+        });
     }
   }, []);
 
@@ -76,18 +104,20 @@ const App = () => {
         </a>
       )}
       {token && (
-          <Fragment>
-            <Header />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={Summary} />
-                <Route path="/top-tracks" component={TopTracks} />
-                <Route path="/top-artists" component={TopArtists} />
-                <Route path="/followed-artists" component={FollowedArtists} />
-              </Switch>
-            </div>
-          </Fragment>
-        )}
+        <Fragment>
+          <Header />
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Summary} />
+              <Route path="/top-tracks" component={TopTracks} />
+              <Route path="/top-artists" component={TopArtists} />
+              <Route path="/followed-artists" component={FollowedArtists} />
+              <Route path="/playlists" component={Playlists} />
+              <Route path="/track/:id" component={TrackAnalysis} />
+            </Switch>
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 };

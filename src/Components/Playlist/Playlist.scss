@@ -1,0 +1,16 @@
+.playlist {
+  margin-bottom: 1em;
+  background: #fff;
+}
+.playlist-header {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  .playlist-tmb {
+    margin-right: 1em;
+  }
+}
+.playlist-controls {
+  .btn {
+    margin-right: 1em;
+  }  
+}
