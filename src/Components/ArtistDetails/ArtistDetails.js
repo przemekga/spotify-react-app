@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import Tag from "../Tag/Tag";
 import Track from "../Track/Track";
 import AlbumCard from "../AlbumCard/AlbumCard";
+import Artist from "../Artist/Artist";
 
 import "./ArtistDetails.scss";
 
 import { spotifyApi } from "../../utils";
 
-const ArtistDetails = ({ match }) => {
+const ArtistDetails = ({ match, history }) => {
   const [artistData, setArtistData] = useState();
 
   useEffect(() => {
@@ -16,12 +17,15 @@ const ArtistDetails = ({ match }) => {
       setArtistData(res);
       console.log(res);
     });
-  }, []);
+    history.listen((location, action) => {
+      window.scrollTo(0, 0);
+    });
+  }, [match.params.id]);
 
   async function getArtistData(id) {
     const summary = spotifyApi.getArtist(id);
     const albums = spotifyApi.getArtistAlbums(id, {
-      include_groups: 'album',
+      include_groups: "album",
       limit: 50
     });
     const relatedArtists = spotifyApi.getArtistRelatedArtists(id);
@@ -78,9 +82,32 @@ const ArtistDetails = ({ match }) => {
             <div className="row">
               {artistData.albums.items.map(item => {
                 return (
-                  <div key={item.id} className="col-6 col-sm-6 col-md-4 col-lg-3">
+                  <div
+                    key={item.id}
+                    className="col-6 col-sm-6 col-md-4 col-lg-3"
+                  >
                     <AlbumCard data={item} />
                   </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="col-12">
+            <h5>Related Artists</h5>
+            <div className="row">
+              {artistData.relatedArtists.artists.map(item => {
+                if (item.images.length === 0)
+                  item.images[1] = { url: "https://placehold.it/300x300" };
+                return (
+                  <Artist
+                    key={item.id}
+                    name={item.name}
+                    image={item.images[1].url}
+                    col={6}
+                    tags={item.genres}
+                    followers={item.followers.total}
+                    id={item.id}
+                  />
                 );
               })}
             </div>
