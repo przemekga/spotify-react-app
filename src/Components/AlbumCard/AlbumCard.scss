@@ -1,7 +1,9 @@
 .AlbumCard {
+  display: block;
   margin-bottom: 2em;
   box-shadow: 3px 4px 12px #dedede, 3px 4px 16px 5px #dedede;
   p {
+    color: rgba(0, 0, 0, 0.87);
     margin: 0;
     padding: 10px 5px 13px 5px;
     font-size: 1.2em;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Tag from "../Tag/Tag";
 import Track from "../Track/Track";
 import AlbumCard from "../AlbumCard/AlbumCard";
 import Artist from "../Artist/Artist";
+import PresentationHeader from "../PresentationHeader/PresentationHeader";
 
 import "./ArtistDetails.scss";
 
@@ -44,24 +44,14 @@ const ArtistDetails = ({ match, history }) => {
     <div className="row">
       {artistData ? (
         <>
+          <PresentationHeader
+            image={artistData.summary.images[0].url}
+            name={artistData.summary.name}
+            followers={artistData.summary.followers.total}
+            tags={artistData.summary.genres}
+          />
           <div className="col-12">
-            <div className="artist-header">
-              <img src={artistData.summary.images[0].url} alt="" />
-              <h4>{artistData.summary.name}</h4>
-            </div>
-            <div className="d-flex align-items-center">
-              <p className="mr-4">
-                Followers: {artistData.summary.followers.total}
-              </p>
-              <div>
-                {artistData.summary.genres.map((item, index) => (
-                  <Tag name={item} key={index} limit={false} />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="col-12">
-            <h5>Top tracks:</h5>
+            <h4>Top tracks:</h4>
             <ul>
               {artistData.topTracks.tracks.map(item => (
                 <Track
@@ -78,7 +68,7 @@ const ArtistDetails = ({ match, history }) => {
             </ul>
           </div>
           <div className="col-12">
-            <h5>Albums:</h5>
+            <h4>Albums:</h4>
             <div className="row">
               {artistData.albums.items.map(item => {
                 return (
@@ -93,7 +83,7 @@ const ArtistDetails = ({ match, history }) => {
             </div>
           </div>
           <div className="col-12">
-            <h5>Related Artists</h5>
+            <h4>Related Artists</h4>
             <div className="row">
               {artistData.relatedArtists.artists.map(item => {
                 if (item.images.length === 0)
