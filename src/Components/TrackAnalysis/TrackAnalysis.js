@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Radar, ResponsiveLine } from "nivo";
+import { Radar } from "nivo";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
 import { spotifyApi } from "../../utils";
 import PresentationHeader from "../PresentationHeader/PresentationHeader";
@@ -121,6 +121,7 @@ const TrackAnalysis = ({ match }) => {
               allowtransparency="true"
               height="80px"
               width="100%"
+              title="Song"
             />
             <h5>Audio Features</h5>
           </div>
