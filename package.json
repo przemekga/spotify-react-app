@@ -8,7 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "materialize-css": "^1.0.0",
     "nivo": "^0.31.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "react": "next",
     "react-dom": "next",
     "react-redux": "^7.1.0",
